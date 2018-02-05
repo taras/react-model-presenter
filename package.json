@@ -1,7 +1,8 @@
 {
   "name": "react-model-presenter",
   "version": "1.0.0-beta.0",
-  "module": "src/index",
+  "main": "src",
+  "module": "src",
   "repository": "https://github.com/taras/react-model-presenter.git",
   "dependencies": {
     "funcadelic": "0.3.2",
