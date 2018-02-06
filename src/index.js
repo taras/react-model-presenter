@@ -1,4 +1,3 @@
-import React from "react";
 import getOwnPropertyDescriptors from "object.getownpropertydescriptors";
 import { map, append } from "funcadelic";
 
@@ -81,10 +80,13 @@ export default function present(Model) {
     );
   }
 
-  return function ModelWrapper({ children, ...props }) {
-    if (typeof children !== 'function') {
-      throw new Error('Presentation components expect a children function')
+  return function ModelWrapper(props) {
+    let { children } = props;
+
+    if (typeof children !== "function") {
+      throw new Error("Presentation components expect a children function");
     }
+
     // Convert all functions that accept one argument to getters that will be cached.
     let getterFunctionsFromProps = map(
       functionToGetter,

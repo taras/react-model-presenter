@@ -1,22 +1,26 @@
 {
   "name": "react-model-presenter",
-  "version": "1.0.0-beta.0",
-  "main": "src",
-  "module": "src",
+  "version": "1.0.0-beta.2",
+  "main": "dist/model-presenter.cjs.js",
+  "module": "dist/model-presenter.esm.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
+  "files": ["src", "README.md", "dist"],
   "dependencies": {
     "funcadelic": "0.3.2",
     "object.getownpropertydescriptors": "2.0.3",
     "react": "^16.2.0"
   },
   "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-plugin-external-helpers": "6.22.0",
+    "babel-preset-env": "1.6.1",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.0"
+    "react-scripts": "1.1.0",
+    "rollup": "0.55.3"
   },
   "scripts": {
+    "build": "rollup --config",
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --env=jsdom"
   }
 }
