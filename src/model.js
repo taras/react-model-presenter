@@ -85,7 +85,10 @@ export default class Model {
         });
       },
       {},
-      getPrototypeDescriptors(instance.constructor)
+      append(
+        getOwnPropertyDescriptors(instance),
+        getPrototypeDescriptors(instance.constructor)
+      )
     );
 
     return Object.create(prototype, properties);
