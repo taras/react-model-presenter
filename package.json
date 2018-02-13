@@ -1,6 +1,6 @@
 {
   "name": "react-model-presenter",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "main": "dist/model-presenter.cjs.js",
   "module": "dist/model-presenter.esm.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
