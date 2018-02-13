@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import present from "./index";
+import Model from "./model";
+import { map } from "funcadelic";
 
 describe("present function", () => {
   it("exports a function", () => {
@@ -237,5 +239,50 @@ describe("presenter component", function() {
 
       ReactDOM.unmountComponentAtNode(div);
     });
+  });
+});
+
+describe("mapping", () => {
+  it("allows to map getters", () => {
+    class Input extends Model {
+      get big() {
+        return this.data;
+      }
+
+      get data() {
+        return "data";
+      }
+
+      get value() {
+        return this.text;
+      }
+    }
+
+    class Box {
+      get a() {
+        return new Input({ text: "a" });
+      }
+
+      get capitalA() {
+        return map((value, key) => value.toUpperCase(), this.a);
+      }
+    }
+
+    let Presenter = present(Box);
+    let div = document.createElement("div");
+
+    ReactDOM.render(
+      <Presenter>
+        {box => {
+          expect(box.capitalA).toBeInstanceOf(Input);
+          expect(box.capitalA.value).toBe("A");
+          expect(box.capitalA.big).toBe("DATA");
+          return null;
+        }}
+      </Presenter>,
+      div
+    );
+
+    ReactDOM.unmountComponentAtNode(div);
   });
 });
