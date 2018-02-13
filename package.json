@@ -7,6 +7,7 @@
   "files": ["src", "README.md", "dist"],
   "dependencies": {
     "funcadelic": "0.3.2",
+    "is-symbol": "1.0.1",
     "object.getownpropertydescriptors": "2.0.3",
     "react": "^16.2.0"
   },
@@ -20,8 +21,8 @@
   },
   "scripts": {
     "build": "rollup --config",
-    "start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom",
+    "start": "react-scripts test --env=jsdom",
+    "test": "CI=true react-scripts test --env=jsdom",
     "prepublish": "npm run test && npm run build"
   }
 }
