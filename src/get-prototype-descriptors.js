@@ -1,10 +1,9 @@
 import getOwnPropertyDescriptors from "object.getownpropertydescriptors";
-import { append, filter } from "funcadelic";
-import isSymbol from "is-symbol";
+import { append } from "funcadelic";
 
 const { getPrototypeOf } = Object;
 
-export function getPrototypeDescriptors(Class) {
+export default function getPrototypeDescriptors(Class) {
   let prototype = getPrototypeOf(Class);
   if (prototype && prototype !== getPrototypeOf(Object)) {
     return append(
@@ -14,12 +13,4 @@ export function getPrototypeDescriptors(Class) {
   } else {
     return getOwnPropertyDescriptors(Class.prototype);
   }
-}
-
-export default function getDescriptors(instance) {
-  let descriptors = append(
-    getPrototypeDescriptors(instance.constructor),
-    getOwnPropertyDescriptors(instance)
-  );
-  return filter(({ key }) => !isSymbol(key), descriptors);
 }

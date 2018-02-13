@@ -1,21 +1,9 @@
-import { map, append } from "funcadelic";
+import { map, append, filter } from "funcadelic";
 import getOwnPropertyDescriptors from "object.getownpropertydescriptors";
-import getDescriptors from "./get-descriptors";
+import isSymbol from "is-symbol";
+import getPrototypeDescriptors from "./get-prototype-descriptors";
 
 const { create, getPrototypeOf } = Object;
-
-function functionToGetter(descriptor) {
-  if (typeof descriptor.value === "function" && descriptor.value.length > 0) {
-    return {
-      get: function() {
-        return descriptor.value(this);
-      },
-      enumerable: true
-    };
-  } else {
-    return descriptor;
-  }
-}
 
 function thunk(fn) {
   let evaluated = false;
@@ -47,17 +35,20 @@ export default class Model {
     Object.assign(this, props);
   }
   static create(Type, props) {
-    // Convert all functions that accept one argument to getters that will be cached.
-    let getterFunctionsFromProps = map(
-      functionToGetter,
-      getOwnPropertyDescriptors(props)
-    );
+    let propsDescriptors = getOwnPropertyDescriptors(props);
 
     // take descriptors from prototype and combine them with those created by class properties
-    let ownDescriptors = getDescriptors(new Type());
+    let instanceDescriptors = getOwnPropertyDescriptors(new Type());
+
+    let prototypeDescriptors = filter(
+      ({ key }) => !isSymbol(key),
+      getPrototypeDescriptors(Type)
+    );
+
+    let ownDescriptors = append(instanceDescriptors, prototypeDescriptors);
 
     // combine getters from model with getters from props
-    let descriptors = append(ownDescriptors, getterFunctionsFromProps);
+    let descriptors = append(ownDescriptors, propsDescriptors);
 
     // wrapped getters in caching
     let cached = map(cacheGetters, descriptors);

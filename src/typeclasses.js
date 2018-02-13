@@ -1,11 +1,14 @@
 import { append, Functor, foldr } from "funcadelic";
 import Model from "./model";
-import getDescriptors from "./get-descriptors";
+import getPrototypeDescriptors from "./get-prototype-descriptors";
+import getOwnPropertyDescriptors from "object.getownpropertydescriptors";
 
 const { create, getPrototypeOf } = Object;
 
 Functor.instance(Model, {
   map(fn, instance) {
+    let prototype = getPrototypeOf(instance);
+
     let properties = foldr(
       function(properties, entry) {
         let descriptor = entry.value;
@@ -16,7 +19,7 @@ Functor.instance(Model, {
             [key]: {
               enumerable: descriptor.enumerable,
               get() {
-                return fn(descriptor.get.apply(this), key);
+                return fn(descriptor.get.apply(instance), key);
               }
             }
           });
@@ -32,10 +35,8 @@ Functor.instance(Model, {
         });
       },
       {},
-      getDescriptors(instance)
+      getPrototypeDescriptors(instance.constructor)
     );
-
-    let prototype = getPrototypeOf(instance);
 
     return Object.create(prototype, properties);
   }

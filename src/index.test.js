@@ -122,27 +122,6 @@ describe("presenter component", function() {
       ReactDOM.unmountComponentAtNode(div);
     });
 
-    it("allows getters to be defined via props", () => {
-      let Presenter = present(Person);
-      let div = document.createElement("div");
-
-      ReactDOM.render(
-        <Presenter
-          firstName="Najwa"
-          lastName="Azer"
-          formattedName={person => person.fullName.toUpperCase()}
-        >
-          {person => {
-            expect(person.formattedName).toEqual("NAJWA AZER");
-            return null;
-          }}
-        </Presenter>,
-        div
-      );
-
-      ReactDOM.unmountComponentAtNode(div);
-    });
-
     it("caches computation result", () => {
       let fn = jest.fn().mockImplementation(() => null);
 
