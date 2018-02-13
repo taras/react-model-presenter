@@ -1,4 +1,4 @@
-import { map, append, filter } from "funcadelic";
+import { map, append, filter, foldr, Functor } from "funcadelic";
 import getOwnPropertyDescriptors from "object.getownpropertydescriptors";
 import isSymbol from "is-symbol";
 import getPrototypeDescriptors from "./get-prototype-descriptors";
@@ -55,4 +55,43 @@ export default class Model {
 
     return create(Type.prototype, cached);
   }
+
+  static map(fn, instance) {
+    let prototype = getPrototypeOf(instance);
+
+    let properties = foldr(
+      function(properties, entry) {
+        let descriptor = entry.value;
+        let { key } = entry;
+
+        if (!!descriptor.get) {
+          return append(properties, {
+            [key]: {
+              enumerable: descriptor.enumerable,
+              get() {
+                return fn(descriptor.get.apply(instance), key);
+              }
+            }
+          });
+        }
+
+        return append(properties, {
+          [key]: {
+            enumerable: descriptor.enumerable,
+            get() {
+              return fn(descriptor.value, key);
+            }
+          }
+        });
+      },
+      {},
+      getPrototypeDescriptors(instance.constructor)
+    );
+
+    return Object.create(prototype, properties);
+  }
 }
+
+Functor.instance(Model, {
+  map: Model.map
+});
