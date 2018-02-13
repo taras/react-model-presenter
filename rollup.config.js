@@ -1,3 +1,4 @@
+import babel from "rollup-plugin-babel";
 import pkg from "./package.json";
 
 export default [
@@ -13,6 +14,20 @@ export default [
     output: [
       { file: pkg.main, format: "cjs" },
       { file: pkg.module, format: "es" }
+    ],
+    plugins: [
+      babel({
+        babelrc: false,
+        comments: false,
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              modules: false
+            }
+          ]
+        ]
+      })
     ]
   }
 ];
