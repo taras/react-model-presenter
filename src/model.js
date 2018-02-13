@@ -68,9 +68,7 @@ export default class Model {
           return append(properties, {
             [key]: {
               enumerable: descriptor.enumerable,
-              get() {
-                return fn(descriptor.get.apply(instance), key);
-              }
+              get: fn(descriptor.get, key)
             }
           });
         }

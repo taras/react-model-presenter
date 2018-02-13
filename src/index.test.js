@@ -242,7 +242,8 @@ describe("mapping", () => {
       }
 
       get capitalA() {
-        return map((value, key) => value.toUpperCase(), this.a);
+        let { a } = this;
+        return Model.map((value, key) => () => a[key].toUpperCase(), a);
       }
     }
 
@@ -285,7 +286,8 @@ describe("mapping", () => {
       }
 
       get capitalA() {
-        return Model.map((value, key) => value.toUpperCase(), this.a);
+        let { a } = this;
+        return Model.map((value, key) => () => a[key].toUpperCase(), a);
       }
     }
 
