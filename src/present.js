@@ -1,4 +1,5 @@
 import Model from "./model";
+import { filter } from "funcadelic";
 
 /**
  * ModelWrapper is a factory for HoC that build view specific models. The component
@@ -46,7 +47,10 @@ export default function present(Type) {
       throw new Error("Presentation components expect a children function");
     }
 
-    let model = Model.create(Type, props);
+    let model = Model.create(
+      Type,
+      filter(({ key }) => key !== "children", props)
+    );
 
     Object.freeze(model);
 

@@ -121,6 +121,23 @@ describe("presenter component", function() {
       ReactDOM.unmountComponentAtNode(div);
     });
 
+    it("excludes children", () => {
+      let Presenter = present(Person);
+      let div = document.createElement("div");
+
+      ReactDOM.render(
+        <Presenter firstName="Najwa" lastName="Azer">
+          {person => {
+            expect(person.children).not.toBeDefined();
+            return null;
+          }}
+        </Presenter>,
+        div
+      );
+
+      ReactDOM.unmountComponentAtNode(div);
+    });
+
     it("caches computation result", () => {
       let fn = jest.fn().mockImplementation(() => null);
 

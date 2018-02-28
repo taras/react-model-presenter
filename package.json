@@ -4,11 +4,7 @@
   "main": "dist/model-presenter.cjs.js",
   "module": "dist/model-presenter.esm.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
-  "files": [
-    "src",
-    "README.md",
-    "dist"
-  ],
+  "files": ["src", "README.md", "dist"],
   "dependencies": {
     "funcadelic": "0.3.2",
     "is-symbol": "1.0.1",
@@ -27,6 +23,6 @@
     "build": "rollup --config",
     "start": "react-scripts test --env=jsdom",
     "test": "CI=true react-scripts test --env=jsdom",
-    "prepublish": "npm run test && npm run build"
+    "prepare": "npm run test && npm run build"
   }
 }
