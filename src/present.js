@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import Model from "./model";
 import { filter } from "funcadelic";
-import isShallowEqual from "is-equal-shallow";
+import isShallowEqual from "shallowequal";
 
 const withoutChildren = props => filter(({ key }) => key !== "children", props);
 

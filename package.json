@@ -7,10 +7,10 @@
   "files": ["src", "README.md", "dist"],
   "dependencies": {
     "funcadelic": "0.3.2",
-    "is-equal-shallow": "0.1.3",
     "is-symbol": "1.0.1",
     "object.getownpropertydescriptors": "2.0.3",
-    "react": "^16.2.0"
+    "react": "^16.2.0",
+    "shallowequal": "1.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.40",

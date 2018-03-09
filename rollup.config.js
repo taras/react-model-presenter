@@ -14,7 +14,7 @@ export default [
       "funcadelic",
       "object.getownpropertydescriptors",
       "is-symbol",
-      "is-equal-shallow",
+      "shallowequal",
       "react"
     ],
     output: [
