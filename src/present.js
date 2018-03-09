@@ -1,5 +1,9 @@
+import React, { PureComponent } from "react";
 import Model from "./model";
 import { filter } from "funcadelic";
+import isShallowEqual from "is-equal-shallow";
+
+const withoutChildren = props => filter(({ key }) => key !== "children", props);
 
 /**
  * ModelWrapper is a factory for HoC that build view specific models. The component
@@ -40,20 +44,42 @@ export default function present(Type) {
     );
   }
 
-  return function ModelWrapper(props) {
-    let { children } = props;
+  class ModelPresenter extends PureComponent {
+    constructor(props) {
+      super(props);
 
-    if (typeof children !== "function") {
-      throw new Error("Presentation components expect a children function");
+      if (typeof props.children !== "function") {
+        throw new Error("Presentation components expect a children function");
+      }
+
+      this.state = {
+        model: this.createModel(props)
+      };
     }
 
-    let model = Model.create(
-      Type,
-      filter(({ key }) => key !== "children", props)
-    );
+    createModel(props) {
+      let model = Model.create(Type, withoutChildren(props));
+      Object.freeze(model);
+      return model;
+    }
 
-    Object.freeze(model);
+    componentWillReceiveProps(nextProps) {
+      if (
+        !isShallowEqual(withoutChildren(this.props), withoutChildren(nextProps))
+      ) {
+        console.log("rerendering", nextProps, this.props);
+        this.setState({
+          model: this.createModel(nextProps)
+        });
+      }
+    }
 
-    return children(model);
-  };
+    render() {
+      return this.props.children(this.state.model);
+    }
+  }
+
+  ModelPresenter.displayName = `${Type.name}Presenter`;
+
+  return ModelPresenter;
 }

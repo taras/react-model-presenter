@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import { Simulate } from "react-dom/test-utils";
 import present, { Model } from "react-model-presenter";
 import { map } from "funcadelic";
 
@@ -61,6 +62,67 @@ describe("presenter component", function() {
     expect(div.textContent).toEqual(
       "Presentation components expect a children function"
     );
+
+    ReactDOM.unmountComponentAtNode(div);
+  });
+
+  it("re-renders children without reinstantiating model", () => {
+    let Presenter = present(Bird);
+    let div = document.createElement("div");
+
+    let instances = [];
+
+    class Stateful extends Component {
+      constructor(props) {
+        super(props);
+
+        this.state = {
+          number: 0
+        };
+      }
+
+      increment = () =>
+        this.setState({
+          number: this.state.number + 1
+        });
+
+      render() {
+        return this.props.children({
+          number: this.state.number,
+          increment: this.increment
+        });
+      }
+    }
+
+    let button;
+
+    ReactDOM.render(
+      <Stateful>
+        {({ number, increment }) => (
+          <Presenter color="yellow">
+            {bird => {
+              instances = [...instances, bird];
+              return (
+                <button onClick={increment} ref={node => (button = node)}>
+                  Increment ({number})
+                </button>
+              );
+            }}
+          </Presenter>
+        )}
+      </Stateful>,
+      div
+    );
+
+    expect(instances).toHaveLength(1);
+
+    expect(button.textContent).toBe("Increment (0)");
+
+    Simulate.click(button);
+
+    expect(button.textContent).toBe("Increment (1)");
+
+    expect(instances[0]).toBe(instances[1]);
 
     ReactDOM.unmountComponentAtNode(div);
   });
@@ -217,23 +279,11 @@ describe("presenter component", function() {
 
       ReactDOM.unmountComponentAtNode(div);
     });
+  });
 
-    it("allows default property values to be overriden", () => {
-      let Presenter = present(Bird);
-      let div = document.createElement("div");
-
-      ReactDOM.render(
-        <Presenter color="yellow">
-          {bird => {
-            expect(bird.color).toEqual("yellow");
-            return null;
-          }}
-        </Presenter>,
-        div
-      );
-
-      ReactDOM.unmountComponentAtNode(div);
-    });
+  it("does not re-instantiate the model when children change", () => {
+    let Presenter = present(Bird);
+    let div = document.createElement("div");
   });
 });
 

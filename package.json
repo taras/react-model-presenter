@@ -4,9 +4,14 @@
   "main": "dist/model-presenter.cjs.js",
   "module": "dist/model-presenter.esm.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
-  "files": ["src", "README.md", "dist"],
+  "files": [
+    "src",
+    "README.md",
+    "dist"
+  ],
   "dependencies": {
     "funcadelic": "0.3.2",
+    "is-equal-shallow": "0.1.3",
     "is-symbol": "1.0.1",
     "object.getownpropertydescriptors": "2.0.3",
     "react": "^16.2.0"
