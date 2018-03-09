@@ -52,9 +52,7 @@ export default function present(Type) {
         throw new Error("Presentation components expect a children function");
       }
 
-      this.state = {
-        model: this.createModel(props)
-      };
+      this.model = this.createModel(props);
     }
 
     createModel(props) {
@@ -67,15 +65,12 @@ export default function present(Type) {
       if (
         !isShallowEqual(withoutChildren(this.props), withoutChildren(nextProps))
       ) {
-        console.log("rerendering", nextProps, this.props);
-        this.setState({
-          model: this.createModel(nextProps)
-        });
+        this.model = this.createModel(nextProps);
       }
     }
 
     render() {
-      return this.props.children(this.state.model);
+      return this.props.children(this.model);
     }
   }
 
