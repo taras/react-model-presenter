@@ -1,29 +1,69 @@
 {
   "name": "react-model-presenter",
   "version": "1.0.0-beta.13",
-  "main": "dist/model-presenter.cjs.js",
-  "module": "dist/model-presenter.esm.js",
+  "main": "dist/react-model-presenter.cjs.js",
+  "module": "dist/react-model-presenter.esm.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
-  "files": ["src", "README.md", "dist"],
+  "files": [
+    "src",
+    "README.md",
+    "dist"
+  ],
   "dependencies": {
     "funcadelic": "0.3.2",
     "is-symbol": "1.0.1",
     "object.getownpropertydescriptors": "2.0.3",
-    "react": "^16.2.0",
     "shallowequal": "1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.40",
-    "@babel/preset-env": "7.0.0-beta.40",
-    "react-dom": "^16.2.0",
-    "react-scripts": "1.1.0",
-    "rollup": "0.55.3",
-    "rollup-plugin-babel": "4.0.0-beta.0"
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.40",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-react": "^7.0.0-beta.40",
+    "babel-core": "^7.0.0-0",
+    "babel-eslint": "8.2.2",
+    "babel-jest": "^22.4.1",
+    "enzyme": "3.3.0",
+    "enzyme-adapter-react-16": "1.1.1",
+    "eslint": "4.18.2",
+    "eslint-plugin-jest": "21.13.0",
+    "eslint-plugin-react": "7.7.0",
+    "jest": "22.4.2",
+    "jest-cli": "^22.4.2",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "rollup": "0.56.3",
+    "rollup-plugin-babel": "^4.0.0-beta.0",
+    "rollup-plugin-filesize": "1.5.0"
+  },
+  "peerDependencies": {
+    "react": "16.2.0",
+    "react-dom": "16.2.0"
   },
   "scripts": {
     "build": "rollup --config",
-    "start": "react-scripts test --env=jsdom",
-    "test": "CI=true react-scripts test --env=jsdom",
-    "prepare": "npm run test && npm run build"
+    "prepare": "npm test",
+    "test": "jest",
+    "start": "npm test -- --watch"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
+    "testRegex": "(/tests/.*-test)\\.(js|jsx)$",
+    "globalSetup": "./build.js",
+    "watchPathIgnorePatterns": [
+      "<rootDir>/dist/"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "modulePaths": [
+      "<rootDir>/src",
+      "<rootDir>/node_modules"
+    ],
+    "moduleNameMapper": {
+      "react-model-presenter": "<rootDir>/dist/react-model-presenter.esm.js"
+    }
   }
 }

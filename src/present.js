@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import Model from "./model";
 import { filter } from "funcadelic";
 import isShallowEqual from "shallowequal";
