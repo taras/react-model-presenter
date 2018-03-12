@@ -1,5 +1,5 @@
-import getOwnPropertyDescriptors from "object.getownpropertydescriptors";
-import { append } from "funcadelic";
+import getOwnPropertyDescriptors from 'object.getownpropertydescriptors';
+import { append } from 'funcadelic';
 
 const { getPrototypeOf } = Object;
 
