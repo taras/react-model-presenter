@@ -1,14 +1,10 @@
 {
   "name": "react-model-presenter",
-  "version": "1.0.0-beta.13",
+  "version": "1.0.0-beta.14",
   "main": "dist/react-model-presenter.cjs.js",
   "module": "dist/react-model-presenter.esm.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
-  "files": [
-    "src",
-    "README.md",
-    "dist"
-  ],
+  "files": ["src", "README.md", "dist"],
   "dependencies": {
     "funcadelic": "0.3.2",
     "is-symbol": "1.0.1",
@@ -51,17 +47,9 @@
     "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
     "testRegex": "(/tests/.*-test)\\.(js|jsx)$",
     "globalSetup": "./build.js",
-    "watchPathIgnorePatterns": [
-      "<rootDir>/dist/"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "modulePaths": [
-      "<rootDir>/src",
-      "<rootDir>/node_modules"
-    ],
+    "watchPathIgnorePatterns": ["<rootDir>/dist/"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "modulePaths": ["<rootDir>/src", "<rootDir>/node_modules"],
     "moduleNameMapper": {
       "react-model-presenter": "<rootDir>/dist/react-model-presenter.esm.js"
     }
