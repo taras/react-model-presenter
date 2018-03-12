@@ -1,9 +1,9 @@
-import { PureComponent } from "react";
-import Model from "./model";
-import { filter } from "funcadelic";
-import isShallowEqual from "shallowequal";
+import { PureComponent } from 'react';
+import Model from './model';
+import { filter } from 'funcadelic';
+import isShallowEqual from 'shallowequal';
 
-const withoutChildren = props => filter(({ key }) => key !== "children", props);
+const withoutChildren = props => filter(({ key }) => key !== 'children', props);
 
 /**
  * ModelWrapper is a factory for HoC that build view specific models. The component
@@ -35,10 +35,10 @@ const withoutChildren = props => filter(({ key }) => key !== "children", props);
  */
 export default function present(Type) {
   if (arguments.length !== 1) {
-    throw new Error("present expects one argument");
+    throw new Error('present expects one argument');
   }
 
-  if (typeof Type !== "function") {
+  if (typeof Type !== 'function') {
     throw new Error(
       `present expects a function as first argument, received ${typeof Type} instead`
     );
@@ -48,8 +48,8 @@ export default function present(Type) {
     constructor(props) {
       super(props);
 
-      if (typeof props.children !== "function") {
-        throw new Error("Presentation components expect a children function");
+      if (typeof props.children !== 'function') {
+        throw new Error('Presentation components expect a children function');
       }
 
       this.model = this.createModel(props);

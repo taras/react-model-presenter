@@ -1,7 +1,7 @@
-import { map, append, filter, foldr, Functor } from "funcadelic";
-import getOwnPropertyDescriptors from "object.getownpropertydescriptors";
-import isSymbol from "is-symbol";
-import getPrototypeDescriptors from "./get-prototype-descriptors";
+import { map, append, filter, foldr, Functor } from 'funcadelic';
+import getOwnPropertyDescriptors from 'object.getownpropertydescriptors';
+import isSymbol from 'is-symbol';
+import getPrototypeDescriptors from './get-prototype-descriptors';
 
 const { create, getPrototypeOf } = Object;
 
@@ -64,7 +64,7 @@ export default class Model {
         let descriptor = entry.value;
         let { key } = entry;
 
-        if (!!descriptor.get) {
+        if (descriptor.get) {
           return append(properties, {
             [key]: {
               enumerable: descriptor.enumerable,
