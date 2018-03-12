@@ -1,9 +1,10 @@
 import { PureComponent } from 'react';
 import Model from './model';
 import { filter } from 'funcadelic';
-import isShallowEqual from 'shallowequal';
+import { CacheOne } from './cache';
 
 const withoutChildren = props => filter(({ key }) => key !== 'children', props);
+const withoutCache = props => filter(({ key }) => key !== 'cache', props);
 
 /**
  * ModelWrapper is a factory for HoC that build view specific models. The component
@@ -45,6 +46,8 @@ export default function present(Type) {
   }
 
   class ModelPresenter extends PureComponent {
+    cache = new CacheOne();
+
     constructor(props) {
       super(props);
 
@@ -52,21 +55,33 @@ export default function present(Type) {
         throw new Error('Presentation components expect a children function');
       }
 
-      this.model = this.createModel(props);
+      this.model = this.maybeCached(withoutChildren(props));
+    }
+
+    fromCache(cache, props) {
+      let cached = cache.for(props);
+      if (cached) {
+        return cached;
+      } else {
+        let model = this.createModel(props);
+        cache.set(props, model);
+        return model;
+      }
+    }
+
+    maybeCached(props) {
+      let { cache = this.cache } = props;
+      return this.fromCache(cache, withoutCache(props));
     }
 
     createModel(props) {
-      let model = Model.create(Type, withoutChildren(props));
+      let model = Model.create(Type, props);
       Object.freeze(model);
       return model;
     }
 
     componentWillReceiveProps(nextProps) {
-      if (
-        !isShallowEqual(withoutChildren(this.props), withoutChildren(nextProps))
-      ) {
-        this.model = this.createModel(nextProps);
-      }
+      this.model = this.maybeCached(withoutChildren(nextProps));
     }
 
     render() {

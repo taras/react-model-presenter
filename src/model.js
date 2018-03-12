@@ -34,6 +34,7 @@ export default class Model {
   constructor(props = {}) {
     Object.assign(this, props);
   }
+
   static create(Type, props) {
     let propsDescriptors = getOwnPropertyDescriptors(props);
 
