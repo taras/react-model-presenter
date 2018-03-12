@@ -38,35 +38,4 @@ describe('cache', () => {
     expect(mounted.exists('li:contains(yellow)')).toBe(true);
     expect(mounted.exists('li:contains(blue)')).toBe(true);
   });
-
-  it('saved instances for props', () => {
-    expect(cache.for({ name: 'red', hex: '#FF0000' })).toBeInstanceOf(
-      ColorModel
-    );
-    expect(cache.for({ name: 'yellow', hex: '#FFFF00' })).toBeInstanceOf(
-      ColorModel
-    );
-    expect(cache.for({ name: 'black', hex: '#000000' })).toBeInstanceOf(
-      ColorModel
-    );
-  });
-
-  describe('changing props causes a rerender', () => {
-    beforeEach(() => {
-      colors = [
-        { name: 'red', hex: '#FF0001' },
-        { name: 'yellow', hex: '#FFFF00' },
-        { name: 'black', hex: '#000000' }
-      ];
-      mounted.update();
-    });
-    it('saved instances for props', () => {
-      expect(cache.for({ name: 'red', hex: '#FF0001' })).toBeInstanceOf(
-        ColorModel
-      );
-      expect(cache.for({ name: 'black', hex: '#000000' })).toBeInstanceOf(
-        ColorModel
-      );
-    });
-  });
 });
