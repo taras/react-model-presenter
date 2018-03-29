@@ -1,14 +1,13 @@
 {
   "name": "react-model-presenter",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "main": "dist/react-model-presenter.cjs.js",
   "module": "dist/react-model-presenter.esm.js",
   "browser": "dist/react-model-presenter.umd.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
   "files": ["src", "README.md", "dist"],
   "dependencies": {
-    "funcadelic":
-      "cowboyd/funcadelic.js#abba1bc5ec1e03183a0708bd3679ebb1bb9c6735",
+    "funcadelic": "0.3.4",
     "is-symbol": "1.0.1",
     "object.getownpropertydescriptors": "2.0.3",
     "shallowequal": "1.0.2"
