@@ -1,36 +1,39 @@
-const babel = require("rollup-plugin-babel");
-const filesize = require("rollup-plugin-filesize");
-const pkg = require("./package.json");
+const babel = require('rollup-plugin-babel');
+const filesize = require('rollup-plugin-filesize');
+const pkg = require('./package.json');
+
+let globals = {
+  funcadelic: 'Funcadelic',
+  'object.getownpropertydescriptors': 'Object.getOwnPropertyDescriptors',
+  'is-symbol': 'isSymbol',
+  shallowequal: 'shallowequal',
+  react: 'React'
+};
 
 module.exports = {
-  input: "src/index.js",
-  external: [
-    "funcadelic",
-    "object.getownpropertydescriptors",
-    "is-symbol",
-    "shallowequal",
-    "react"
-  ],
+  input: 'src/index.js',
+  external: Object.keys(globals),
   output: [
-    { file: pkg.main, format: "cjs" },
-    { file: pkg.module, format: "es" }
+    { file: pkg.main, format: 'cjs', exports: 'named' },
+    { file: pkg.module, format: 'es' },
+    { file: pkg.browser, format: 'umd', name: 'RMP', globals, exports: 'named' }
   ],
   plugins: [
     babel({
       babelrc: false,
       comments: false,
       plugins: [
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-proposal-object-rest-spread"
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-object-rest-spread'
       ],
       presets: [
         [
-          "@babel/preset-env",
+          '@babel/preset-env',
           {
             modules: false
           }
         ],
-        "@babel/preset-react"
+        '@babel/preset-react'
       ]
     }),
     filesize({
