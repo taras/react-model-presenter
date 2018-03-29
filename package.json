@@ -1,17 +1,14 @@
 {
   "name": "react-model-presenter",
-  "version": "1.0.0-beta.14",
+  "version": "1.0.0-beta.15",
   "main": "dist/react-model-presenter.cjs.js",
   "module": "dist/react-model-presenter.esm.js",
   "browser": "dist/react-model-presenter.umd.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
-  "files": [
-    "src",
-    "README.md",
-    "dist"
-  ],
+  "files": ["src", "README.md", "dist"],
   "dependencies": {
-    "funcadelic": "cowboyd/funcadelic.js#abba1bc5ec1e03183a0708bd3679ebb1bb9c6735",
+    "funcadelic":
+      "cowboyd/funcadelic.js#abba1bc5ec1e03183a0708bd3679ebb1bb9c6735",
     "is-symbol": "1.0.1",
     "object.getownpropertydescriptors": "2.0.3",
     "shallowequal": "1.0.2"
@@ -52,17 +49,9 @@
     "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
     "testRegex": "(/tests/.*-test)\\.(js|jsx)$",
     "globalSetup": "./build.js",
-    "watchPathIgnorePatterns": [
-      "<rootDir>/dist/"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "modulePaths": [
-      "<rootDir>/src",
-      "<rootDir>/node_modules"
-    ],
+    "watchPathIgnorePatterns": ["<rootDir>/dist/"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "modulePaths": ["<rootDir>/src", "<rootDir>/node_modules"],
     "moduleNameMapper": {
       "react-model-presenter": "<rootDir>/dist/react-model-presenter.esm.js"
     }
