@@ -119,3 +119,27 @@ it('passes default property values to the instance', () => {
     </Presenter>
   );
 });
+
+describe('context', () => {
+  let PresentedPerson = present(Person);
+
+  it('has Consumer', () => {
+    expect(PresentedPerson.Consumer).toBeInstanceOf(Function);
+  });
+
+  it('can be rendered in nested component', () => {
+    let Component = () => (
+      <PresentedPerson.Consumer>
+        {person => person.fullName}
+      </PresentedPerson.Consumer>
+    );
+
+    let mounted = mount(
+      <PresentedPerson firstName="Taras" lastName="Mankovski">
+        <Component />
+      </PresentedPerson>
+    );
+
+    expect(mounted.text()).toBe('Taras Mankovski');
+  });
+});

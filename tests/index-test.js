@@ -1,8 +1,6 @@
 import 'jest';
 import React from 'react';
-import { mount } from 'enzyme';
 import present from 'react-model-presenter';
-import { stubConsoleError } from '../setupTests';
 
 describe('present function', () => {
   it('exports a function', () => {
@@ -21,16 +19,5 @@ describe('present function', () => {
     }).toThrow(
       /present expects a function as first argument, received string instead/
     );
-  });
-});
-
-describe('rendering without child', () => {
-  stubConsoleError();
-  it('expects a children function in the class', () => {
-    let Result = present(class MyClass {});
-
-    expect(() => {
-      mount(<Result />);
-    }).toThrowError(/Presentation components expect a children function/);
   });
 });

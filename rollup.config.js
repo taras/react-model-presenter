@@ -9,7 +9,8 @@ let globals = {
   'fast-memoize': 'fastMemoize',
   shallowequal: 'shallowequal',
   react: 'React',
-  'lodash.omit': '_.omit'
+  'lodash.omit': '_.omit',
+  'create-react-context': 'createReactContext'
 };
 
 module.exports = {

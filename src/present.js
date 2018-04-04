@@ -1,11 +1,12 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import omit from 'lodash.omit';
+import createReactContext from 'create-react-context';
 
 import Model from './model';
 import { CacheOne } from './cache';
 
 /**
- * ModelWrapper is a factory for HoC that build view specific models. The component
+ * `present` is a factory for HoC that build view specific models. The component
  * that is created by this factory has the responsibility of instantiating models from
  * props that are passed to the component.
  *
@@ -24,7 +25,7 @@ import { CacheOne } from './cache';
  *  }
  * }
  *
- * let PersonComponent = ModelWrapper(Person);
+ * let PersonComponent = present(Person);
  *
  * <PersonComponent firstName='Taras' lastName='Mankovski'>
  *  {model => (
@@ -43,17 +44,17 @@ export default function present(Class) {
     );
   }
 
+  const Context = createReactContext();
+
   class ModelPresenter extends Component {
     cache = new CacheOne();
 
     constructor(props) {
       super(props);
 
-      if (typeof props.children !== 'function') {
-        throw new Error('Presentation components expect a children function');
-      }
-
-      this.model = this.maybeCached(props);
+      this.state = {
+        value: this.maybeCached(props)
+      };
     }
 
     fromCache(cache, props) {
@@ -73,15 +74,29 @@ export default function present(Class) {
     }
 
     componentWillReceiveProps(nextProps) {
-      this.model = this.maybeCached(nextProps);
+      let value = this.maybeCached(nextProps);
+
+      if (this.state.value !== value) {
+        this.setState({
+          value
+        });
+      }
     }
 
     render() {
-      return this.props.children(this.model);
+      let { value } = this.state;
+      let { children } = this.props;
+
+      return (
+        <Context.Provider value={value}>
+          {children.call ? children(value) : children}
+        </Context.Provider>
+      );
     }
   }
 
   ModelPresenter.displayName = `${Class.name}Presenter`;
+  ModelPresenter.Consumer = Context.Consumer;
 
   return ModelPresenter;
 }
