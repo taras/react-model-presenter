@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import omit from 'lodash.omit';
+
 import Model from './model';
 import { CacheOne } from './cache';
-import omit from 'lodash.omit';
 
 /**
  * ModelWrapper is a factory for HoC that build view specific models. The component
