@@ -5,15 +5,11 @@
   "module": "dist/react-model-presenter.esm.js",
   "browser": "dist/react-model-presenter.umd.js",
   "repository": "https://github.com/taras/react-model-presenter.git",
-  "files": [
-    "src",
-    "README.md",
-    "dist"
-  ],
+  "files": ["src", "README.md", "dist"],
   "dependencies": {
     "fast-memoize": "2.3.2",
     "funcadelic": "0.4.0",
-    "is-symbol": "1.0.1",
+    "lodash.omit": "4.5.0",
     "object.getownpropertydescriptors": "2.0.3",
     "shallowequal": "1.0.2"
   },
@@ -39,10 +35,6 @@
     "rollup-plugin-babel": "^4.0.0-beta.0",
     "rollup-plugin-filesize": "1.5.0"
   },
-  "peerDependencies": {
-    "react": "16.2.0",
-    "react-dom": "16.2.0"
-  },
   "scripts": {
     "build": "rollup --config",
     "prepare": "npm test",
@@ -53,17 +45,9 @@
     "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
     "testRegex": "(/tests/.*-test)\\.(js|jsx)$",
     "globalSetup": "./build.js",
-    "watchPathIgnorePatterns": [
-      "<rootDir>/dist/"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "modulePaths": [
-      "<rootDir>/src",
-      "<rootDir>/node_modules"
-    ],
+    "watchPathIgnorePatterns": ["<rootDir>/dist/"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "modulePaths": ["<rootDir>/src", "<rootDir>/node_modules"],
     "moduleNameMapper": {
       "react-model-presenter": "<rootDir>/dist/react-model-presenter.esm.js"
     }

@@ -8,7 +8,8 @@ let globals = {
   'is-symbol': 'isSymbol',
   'fast-memoize': 'fastMemoize',
   shallowequal: 'shallowequal',
-  react: 'React'
+  react: 'React',
+  'lodash.omit': '_.omit'
 };
 
 module.exports = {

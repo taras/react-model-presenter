@@ -1,10 +1,7 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import Model from './model';
-import { filter } from 'funcadelic';
 import { CacheOne } from './cache';
-
-const withoutChildren = props => filter(({ key }) => key !== 'children', props);
-const withoutCache = props => filter(({ key }) => key !== 'cache', props);
+import omit from 'lodash.omit';
 
 /**
  * ModelWrapper is a factory for HoC that build view specific models. The component
@@ -34,18 +31,18 @@ const withoutCache = props => filter(({ key }) => key !== 'cache', props);
  *  )}
  * </PersonComponent>
  */
-export default function present(Type) {
+export default function present(Class) {
   if (arguments.length !== 1) {
     throw new Error('present expects one argument');
   }
 
-  if (typeof Type !== 'function') {
+  if (typeof Class !== 'function') {
     throw new Error(
-      `present expects a function as first argument, received ${typeof Type} instead`
+      `present expects a function as first argument, received ${typeof Class} instead`
     );
   }
 
-  class ModelPresenter extends PureComponent {
+  class ModelPresenter extends Component {
     cache = new CacheOne();
 
     constructor(props) {
@@ -55,7 +52,7 @@ export default function present(Type) {
         throw new Error('Presentation components expect a children function');
       }
 
-      this.model = this.maybeCached(withoutChildren(props));
+      this.model = this.maybeCached(props);
     }
 
     fromCache(cache, props) {
@@ -71,15 +68,15 @@ export default function present(Type) {
 
     maybeCached(props) {
       let { cache = this.cache } = props;
-      return this.fromCache(cache, withoutCache(props));
+      return this.fromCache(cache, omit(props, ['cache', 'children']));
     }
 
-    createModel(props) {
-      return Model.create(Type, props);
+    createModel(properties) {
+      return Model.create(Class, properties);
     }
 
     componentWillReceiveProps(nextProps) {
-      this.model = this.maybeCached(withoutChildren(nextProps));
+      this.model = this.maybeCached(nextProps);
     }
 
     render() {
@@ -87,7 +84,7 @@ export default function present(Type) {
     }
   }
 
-  ModelPresenter.displayName = `${Type.name}Presenter`;
+  ModelPresenter.displayName = `${Class.name}Presenter`;
 
   return ModelPresenter;
 }
