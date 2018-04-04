@@ -95,79 +95,17 @@ class Person {
   }
 }
 
-describe('getter support', () => {
-  it('allows getters to access passed in properties', () => {
-    let Presenter = present(Person);
+it('excludes children', () => {
+  let Presenter = present(Person);
 
-    mount(
-      <Presenter firstName="Najwa" lastName="Azer">
-        {person => {
-          expect(person.fullName).toEqual('Najwa Azer');
-          return null;
-        }}
-      </Presenter>
-    );
-  });
-
-  it('excludes children', () => {
-    let Presenter = present(Person);
-
-    mount(
-      <Presenter firstName="Najwa" lastName="Azer">
-        {person => {
-          expect(person.children).not.toBeDefined();
-          return null;
-        }}
-      </Presenter>
-    );
-  });
-
-  it('caches computation result', () => {
-    let fn = jest.fn().mockImplementation(() => null);
-
-    class Person {
-      get formattedName() {
-        return fn();
-      }
-    }
-
-    let Result = present(Person);
-
-    mount(
-      <Result>
-        {person => {
-          person.formattedName;
-          person.formattedName;
-          return null;
-        }}
-      </Result>
-    );
-
-    expect(fn.mock.calls.length).toEqual(1);
-  });
-
-  it('maintains scope of cached getter', () => {
-    let fn = jest.fn().mockImplementation(() => null);
-
-    class Person {
-      get formattedName() {
-        return fn(this);
-      }
-    }
-
-    let Result = present(Person);
-
-    mount(
-      <Result>
-        {person => {
-          person.formattedName;
-          expect(fn.mock.calls[0][0]).toBe(person);
-
-          return null;
-        }}
-      </Result>
-    );
-  });
+  mount(
+    <Presenter firstName="Najwa" lastName="Azer">
+      {person => {
+        expect(person.children).not.toBeDefined();
+        return null;
+      }}
+    </Presenter>
+  );
 });
 
 it('passes default property values to the instance', () => {
