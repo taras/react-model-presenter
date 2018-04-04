@@ -75,9 +75,7 @@ export default function present(Type) {
     }
 
     createModel(props) {
-      let model = Model.create(Type, props);
-      Object.freeze(model);
-      return model;
+      return Model.create(Type, props);
     }
 
     componentWillReceiveProps(nextProps) {

@@ -6,6 +6,7 @@ let globals = {
   funcadelic: 'Funcadelic',
   'object.getownpropertydescriptors': 'Object.getOwnPropertyDescriptors',
   'is-symbol': 'isSymbol',
+  'fast-memoize': 'fastMemoize',
   shallowequal: 'shallowequal',
   react: 'React'
 };
