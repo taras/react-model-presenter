@@ -58,19 +58,18 @@ export default function present(Class) {
 
     fromCache(cache, props) {
       let cached = cache.for(props);
-      if (!cached) {
-        cache.set(props, this.createModel(props));
+      if (cached) {
+        return cached;
+      } else {
+        let instance = Model.create(Class, props);
+        cache.set(props, instance);
+        return instance;
       }
-      return cache.for(props);
     }
 
     maybeCached(props) {
       let { cache = this.cache } = props;
       return this.fromCache(cache, omit(props, ['cache', 'children']));
-    }
-
-    createModel(properties) {
-      return Model.create(Class, properties);
     }
 
     componentWillReceiveProps(nextProps) {
