@@ -57,13 +57,10 @@ export default function present(Class) {
 
     fromCache(cache, props) {
       let cached = cache.for(props);
-      if (cached) {
-        return cached;
-      } else {
-        let model = this.createModel(props);
-        cache.set(props, model);
-        return model;
+      if (!cached) {
+        cache.set(props, this.createModel(props));
       }
+      return cache.for(props);
     }
 
     maybeCached(props) {
