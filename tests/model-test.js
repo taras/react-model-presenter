@@ -28,4 +28,9 @@ describe('create', () => {
   it('has stable getters', () => {
     expect(instance.born).toBe(instance.born);
   });
+  it('does not share getter values between instances', () => {
+    expect(Model.create(Person, { birthYear: '1983' })).not.toBe(
+      Model.create(Person, { birthYear: '1982' })
+    );
+  });
 });
