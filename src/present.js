@@ -1,13 +1,12 @@
-import { PureComponent } from 'react';
+import React, { Component } from 'react';
+import omit from 'lodash.omit';
+import createReactContext from 'create-react-context';
+
 import Model from './model';
-import { filter } from 'funcadelic';
 import { CacheOne } from './cache';
 
-const withoutChildren = props => filter(({ key }) => key !== 'children', props);
-const withoutCache = props => filter(({ key }) => key !== 'cache', props);
-
 /**
- * ModelWrapper is a factory for HoC that build view specific models. The component
+ * `present` is a factory for HoC that build view specific models. The component
  * that is created by this factory has the responsibility of instantiating models from
  * props that are passed to the component.
  *
@@ -26,7 +25,7 @@ const withoutCache = props => filter(({ key }) => key !== 'cache', props);
  *  }
  * }
  *
- * let PersonComponent = ModelWrapper(Person);
+ * let PersonComponent = present(Person);
  *
  * <PersonComponent firstName='Taras' lastName='Mankovski'>
  *  {model => (
@@ -34,28 +33,28 @@ const withoutCache = props => filter(({ key }) => key !== 'cache', props);
  *  )}
  * </PersonComponent>
  */
-export default function present(Type) {
+export default function present(Class) {
   if (arguments.length !== 1) {
     throw new Error('present expects one argument');
   }
 
-  if (typeof Type !== 'function') {
+  if (typeof Class !== 'function') {
     throw new Error(
-      `present expects a function as first argument, received ${typeof Type} instead`
+      `present expects a function as first argument, received ${typeof Class} instead`
     );
   }
 
-  class ModelPresenter extends PureComponent {
+  const Context = createReactContext();
+
+  class ModelPresenter extends Component {
     cache = new CacheOne();
 
     constructor(props) {
       super(props);
 
-      if (typeof props.children !== 'function') {
-        throw new Error('Presentation components expect a children function');
-      }
-
-      this.model = this.maybeCached(withoutChildren(props));
+      this.state = {
+        value: this.maybeCached(props)
+      };
     }
 
     fromCache(cache, props) {
@@ -63,33 +62,41 @@ export default function present(Type) {
       if (cached) {
         return cached;
       } else {
-        let model = this.createModel(props);
-        cache.set(props, model);
-        return model;
+        let instance = Model.create(Class, props);
+        cache.set(props, instance);
+        return instance;
       }
     }
 
     maybeCached(props) {
       let { cache = this.cache } = props;
-      return this.fromCache(cache, withoutCache(props));
-    }
-
-    createModel(props) {
-      let model = Model.create(Type, props);
-      Object.freeze(model);
-      return model;
+      return this.fromCache(cache, omit(props, ['cache', 'children']));
     }
 
     componentWillReceiveProps(nextProps) {
-      this.model = this.maybeCached(withoutChildren(nextProps));
+      let value = this.maybeCached(nextProps);
+
+      if (this.state.value !== value) {
+        this.setState({
+          value
+        });
+      }
     }
 
     render() {
-      return this.props.children(this.model);
+      let { value } = this.state;
+      let { children } = this.props;
+
+      return (
+        <Context.Provider value={value}>
+          {children.call ? children(value) : children}
+        </Context.Provider>
+      );
     }
   }
 
-  ModelPresenter.displayName = `${Type.name}Presenter`;
+  ModelPresenter.displayName = `${Class.name}Presenter`;
+  ModelPresenter.Consumer = Context.Consumer;
 
   return ModelPresenter;
 }
