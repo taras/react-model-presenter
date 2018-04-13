@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import omit from 'lodash.omit';
 import createReactContext from 'create-react-context';
 
@@ -46,7 +46,7 @@ export default function present(Class) {
 
   const Context = createReactContext();
 
-  class ModelPresenter extends Component {
+  class ModelPresenter extends PureComponent {
     cache = new CacheOne();
 
     constructor(props) {
